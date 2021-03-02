@@ -13,6 +13,7 @@ app.use(passport.session());
 // Routes
 app.use('/', require('./routes/main'));
 app.use('/auth', require('./routes/auth'));
+app.use('/token', require('./routes/token'));
 
 // Port setting
 const port = 3000;

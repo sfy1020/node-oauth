@@ -24,17 +24,17 @@ passport.use(new GoogleStrategy(
     console.log('profile: ', profile);
     
     let user = profile;
-    await saveUser(user);
+    await saveUser(user, 'google');
 
     done(null, user);
   }
 ));
 
-async function saveUser(user){
+async function saveUser(user, type){
     if(user && user.email){
         let id = user.email;
         let dbInfo = await db.getUser(id);
-        let userValue = getUserValue(user);
+        let userValue = getUserValue(user, type);
         console.log('dbinfo',dbInfo);
 
         if(dbInfo){
@@ -45,10 +45,11 @@ async function saveUser(user){
     }
 }
 
-function getUserValue(user){
+function getUserValue(user, type){
     return {
         displayName: user.displayName ? user.displayName : 'none',
-        updateTime: new Date()
+        updateTime: new Date(),
+        type: type ? type : 'google'
     }
 }
 
